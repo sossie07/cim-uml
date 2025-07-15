@@ -1,7 +1,54 @@
 @startuml
+Package Fusebits {
 
-title Empty Diagram - cim-powertransformer.puml
-:hello;
-:World;
+class Fuse {
++IdentifiedObject.name
++Switch.normalOpen
++PowerSystemResource.Location
+ConductingEquipment.Terminals
+ConductingEquipment.BaseVoltage
+Equipment.EquipmentContainer
+}
 
+class Location {
+  +IdentifiedObject.mRID
+  +IdentifiedObject.name
+  +Location.CoordinateSystem
+ }
+
+Class PositionPoint{
+  +PositionPoint.sequenceNumber
+  +PositionPoint.xPosition
+  +PositionPoint.yPosition
+  +PositionPoint.zPosition
+  +PositionPoint.Location
+
+}
+
+
+
+Class Terminal{
+Terminal.ConductingEquipment
+Terminal.sequenceNumber
+Terminal.ConnectivityNode
+}
+
+}
+Class CoordinateSystem{
+  +IdentifiedObject.mRID
+  +IdentifiedObject.name
+  +CoordinateSystem.crsUrn
+}
+
+Class ConnectivityNode{
+nothingtoseehere
+}
+
+Fuse::PowerSystemResource.Location --> Location
+PositionPoint::Location --> Location
+Location --> CoordinateSystem
+Fuse::ConductingEquipment.BaseVoltage --> BaseVoltage
+Terminal::ConnectivityNode-->ConnectivityNode
+Fuse::ConductingEquipment.Terminals-->Terminal
+Fuse::Equipment.EquipmentContainer-->Line
 @enduml
