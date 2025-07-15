@@ -1,0 +1,7 @@
+@startuml
+
+title Empty Diagram - cim-powertransformer.puml
+:hello;
+:World;
+
+@enduml
