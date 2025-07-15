@@ -1,0 +1,7 @@
+@startuml
+
+title Empty Diagram - cim-aclinesegment.puml
+:hello;
+:World;
+
+@enduml
