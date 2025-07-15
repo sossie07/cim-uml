@@ -1,7 +1,72 @@
 @startuml
 
-title Empty Diagram - cim-aclinesegment.puml
-:hello;
-:World;
+Package Transformer {
+class PowerTransformer <tran>{
+   IdentifiedObject.name
+   IdentifiedObject.alias
+   IdentifiedObject.type
+   PowerSystemResource.Location
+   ConductingEquipment.BaseVoltage
+}
 
+class Location <tran>{
+  IdentifiedObject.mRID
+  IdentifiedObject.name
+  Location.CoordinateSystem
+  Location.Rotation
+ }
+
+Class PositionPoint <tran>{
+  PositionPoint.sequenceNumber
+  PositionPoint.xPosition
+  PositionPoint.yPosition
+  PositionPoint.zPosition
+  PositionPoint.Location
+
+}
+
+Class Terminal <tran>{
+Terminal.ConductingEquipment
+Terminal.sequenceNumber
+Terminal.ConnectivityNode
+}
+
+Class PowerTransformerEnd <tran>{
+TransformerEnd.Terminal
+TransformerEnd.endNumber
+PowerTransformerEnd.PowerTransformer
+}
+
+
+
+}
+
+Class ConnectivityNode <tran>{
+nothingtoseehere
+}
+
+Class CoordinateSystem{
+  IdentifiedObject.mRID
+  IdentifiedObject.name
+  CoordinateSystem.crsUrn
+}
+
+Class BaseVoltage{
+BaseVoltage.nominalVoltage
+}
+
+
+
+
+
+
+
+PowerTransformer::PowerSystemResource.Location  --> Location
+PositionPoint::Location --> Location
+Location::CoordinateSystem --> CoordinateSystem
+PowerTransformer::ConductingEquipment.BaseVoltage --> BaseVoltage
+Terminal::ConductingEquipment-->PowerTransformer
+PowerTransformerEnd::PowerTransformer-->PowerTransformer
+PowerTransformerEnd::TransformerEnd-->Terminal
+Terminal::ConnectivityNode-->ConnectivityNode
 @enduml
