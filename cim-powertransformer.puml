@@ -1,54 +1,72 @@
 @startuml
-Package Fusebits {
 
-class Fuse {
-+IdentifiedObject.name
-+Switch.normalOpen
-+PowerSystemResource.Location
-ConductingEquipment.Terminals
-ConductingEquipment.BaseVoltage
-Equipment.EquipmentContainer
+Package Transformer {
+class PowerTransformer <tran>{
+   IdentifiedObject.name
+   IdentifiedObject.alias
+   IdentifiedObject.type
+   PowerSystemResource.Location
+   ConductingEquipment.BaseVoltage
 }
 
-class Location {
-  +IdentifiedObject.mRID
-  +IdentifiedObject.name
-  +Location.CoordinateSystem
+class Location <tran>{
+  IdentifiedObject.mRID
+  IdentifiedObject.name
+  Location.CoordinateSystem
+  Location.Rotation
  }
 
-Class PositionPoint{
-  +PositionPoint.sequenceNumber
-  +PositionPoint.xPosition
-  +PositionPoint.yPosition
-  +PositionPoint.zPosition
-  +PositionPoint.Location
+Class PositionPoint <tran>{
+  PositionPoint.sequenceNumber
+  PositionPoint.xPosition
+  PositionPoint.yPosition
+  PositionPoint.zPosition
+  PositionPoint.Location
 
 }
 
-
-
-Class Terminal{
+Class Terminal <tran>{
 Terminal.ConductingEquipment
 Terminal.sequenceNumber
 Terminal.ConnectivityNode
 }
 
-}
-Class CoordinateSystem{
-  +IdentifiedObject.mRID
-  +IdentifiedObject.name
-  +CoordinateSystem.crsUrn
+Class PowerTransformerEnd <tran>{
+TransformerEnd.Terminal
+TransformerEnd.endNumber
+PowerTransformerEnd.PowerTransformer
 }
 
-Class ConnectivityNode{
+
+
+}
+
+Class ConnectivityNode <tran>{
 nothingtoseehere
 }
 
-Fuse::PowerSystemResource.Location --> Location
+Class CoordinateSystem{
+  IdentifiedObject.mRID
+  IdentifiedObject.name
+  CoordinateSystem.crsUrn
+}
+
+Class BaseVoltage{
+BaseVoltage.nominalVoltage
+}
+
+
+
+
+
+
+
+PowerTransformer::PowerSystemResource.Location  --> Location
 PositionPoint::Location --> Location
-Location --> CoordinateSystem
-Fuse::ConductingEquipment.BaseVoltage --> BaseVoltage
+Location::CoordinateSystem --> CoordinateSystem
+PowerTransformer::ConductingEquipment.BaseVoltage --> BaseVoltage
+Terminal::ConductingEquipment-->PowerTransformer
+PowerTransformerEnd::PowerTransformer-->PowerTransformer
+PowerTransformerEnd::TransformerEnd-->Terminal
 Terminal::ConnectivityNode-->ConnectivityNode
-Fuse::ConductingEquipment.Terminals-->Terminal
-Fuse::Equipment.EquipmentContainer-->Line
 @enduml
