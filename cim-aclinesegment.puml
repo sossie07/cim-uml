@@ -1,22 +1,56 @@
 @startuml
 
-Package Transformer {
-class PowerTransformer <tran>{
-   IdentifiedObject.name
-   IdentifiedObject.alias
-   IdentifiedObject.type
-   PowerSystemResource.Location
-   ConductingEquipment.BaseVoltage
+title Empty Diagram - CIM.Line
+
+
+Class Line <line>{
+IdentifiedObject.name
+IdentifiedObject._Names.CircuitName
+Line.Region
 }
 
-class Location <tran>{
+Class ACLineSegment{
+IdentifiedObject.name
+PowerSystemResource.PSRRoles
+PowerSystemResource.PSRType
+ConductingEquipment.BaseVoltage
+PowerSystemResource.Location
+}
+
+Class Terminal <line>{
+Terminal.ConductingEquipment
+Terminal.ConnectivityNode
+Terminal.sequenceNumber
+
+}
+Class ConnectivityNode{
+}
+
+Class PSRRole{
+PSRRole.PSRRoleType
+IdentifiedObject.name
+IdentifiedObject.mRID
+}
+
+Class PSRRoleType{
+IdentifiedObject.name
+IdentifiedObject.mRID
+}
+
+Class BaseVoltage{
+IdentifiedObject.name
+IdentifiedObject.mRID
+BaseVoltage.nominalVoltage
+}
+
+Class Location <line>{
   IdentifiedObject.mRID
   IdentifiedObject.name
   Location.CoordinateSystem
   Location.Rotation
  }
 
-Class PositionPoint <tran>{
+Class PositionPoint<line>{
   PositionPoint.sequenceNumber
   PositionPoint.xPosition
   PositionPoint.yPosition
@@ -25,48 +59,14 @@ Class PositionPoint <tran>{
 
 }
 
-Class Terminal <tran>{
-Terminal.ConductingEquipment
-Terminal.sequenceNumber
-Terminal.ConnectivityNode
-}
 
-Class PowerTransformerEnd <tran>{
-TransformerEnd.Terminal
-TransformerEnd.endNumber
-PowerTransformerEnd.PowerTransformer
-}
+ACLineSegment::PowerSystemResource.PSRRoles-->PSRRole
+ACLineSegment::PowerSystemResource.PSRType-->PSRType
+ACLineSegment::ConductingEquipment.BaseVoltage-->BaseVoltage
+ACLineSegment::PowerSystemResource.Location-->Location
+Terminal::Terminal.ConnectivityNode-->ConnectivityNode
+Terminal::Terminal.ConnectivityNode-->ACLineSegment
+PSRRole::PSRRoleType-->PSRRoleType
+PositionPoint::PositionPoint.Location-->Location
 
-
-
-}
-
-Class ConnectivityNode <tran>{
-nothingtoseehere
-}
-
-Class CoordinateSystem{
-  IdentifiedObject.mRID
-  IdentifiedObject.name
-  CoordinateSystem.crsUrn
-}
-
-Class BaseVoltage{
-BaseVoltage.nominalVoltage
-}
-
-
-
-
-
-
-
-PowerTransformer::PowerSystemResource.Location  --> Location
-PositionPoint::Location --> Location
-Location::CoordinateSystem --> CoordinateSystem
-PowerTransformer::ConductingEquipment.BaseVoltage --> BaseVoltage
-Terminal::ConductingEquipment-->PowerTransformer
-PowerTransformerEnd::PowerTransformer-->PowerTransformer
-PowerTransformerEnd::TransformerEnd-->Terminal
-Terminal::ConnectivityNode-->ConnectivityNode
 @enduml
